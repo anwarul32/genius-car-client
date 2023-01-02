@@ -4,7 +4,14 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 
 const Header = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then()
+            .catch(error => console.error(error))
+    }
+
 
     const menuItems = <>
         <li className='font-semibold'><Link to='/'>Home</Link></li>
@@ -16,7 +23,9 @@ const Header = () => {
             user?.email ?
                 <>
                     <li className='font-semibold'><Link to='/orders'>Orders</Link></li>
-                    <li className='font-semibold'><Link to='/signout'>sign Out</Link></li>
+                    <li className='font-semibold'>
+                        <button onClick={handleLogOut} className='btn btn-ghost'>Sign Out</button>
+                    </li>
 
                 </>
                 :
