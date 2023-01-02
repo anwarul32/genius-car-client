@@ -19,9 +19,32 @@ const Login = () => {
         logIn(email, password)
         .then( result => {
             const user = result.user;
-            console.log(user);
+            // console.log(user);
+
+            const currentUser = {
+                email: user.email 
+            }
+            // console.log(currentUser);
+
             form.reset();
-            navigate(from, { replace: true });
+
+            // get jwt token
+            fetch('http://localhost:5000/jwt', {
+                method: 'POSt',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(currentUser)
+            })
+            .then(res => res.json())
+            .then( data => {
+                // console.log(data);
+                // local storage is the easiest but not the best place to store!
+                localStorage.setItem('geniusToken', data.token);
+                navigate(from, { replace: true });
+            });
+
+
         })
         .catch(error => {
             console.error(error);
